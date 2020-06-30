@@ -1,5 +1,3 @@
-var myphoto= document.getElementById("canvas");
-var pict = myphoto.getContext("2d");
 var over = [
  [-0.92453, -0.99625],
 [-0.91981, -0.92509],
@@ -264,13 +262,54 @@ var over = [
 [-0.61321, -0.99625],
 [-0.92925, -0.99625]
 ];
+var myphoto = document.getElementById("canvas121");
+var pict = myphoto.getContext("2d");
 pict.beginPath();
-for (var i = 1; i < over.length; ++i) {
+for (var i = 1; i < over.length; i++) {
+  if (over[i][0] == 0 && over[i][1] == 0) {
+    i++;
+    pict.moveTo(150 * (1.5 - over[i][0]), 150 * (1.5 - over[i][1]));      //статическое решение
+  } 
+  else pict.lineTo(150 * (1.5 - over[i][0]), 150 * (1.5 - over[i][1]));
+}
+pict.closePath();
+pict.stroke();
+
+
+var myphoto = document.getElementById("canvas122");
+var pict = myphoto.getContext("2d");
+var interval = 90;
+function drawLine(x0, y0, x, y) {
+    var amount = 0;
+    function time() {
+      amount += 0.1;
+      pict.moveTo(x0, y0);
+      pict.lineTo(x0 + (x - x0) * amount, y0 + (y - y0) * amount);
+      if (amount > (0.1 * interval) / 100) pict.stroke();
+      if (amount >= 1) clearInterval(timer);
+    }
+    var timer = setInterval(time, interval);
+    amount = 0;
+    interval += 1;
+}
+pict.beginPath();
+for (var i = 1; i < over.length; i++) {
   if (over[i][0] == 0 && over[i][1] == 0) {
     i++;
     pict.moveTo(150 * (1.5 - over[i][0]), 150 * (1.5 - over[i][1]));
-  } else pict.lineTo(150 * (1.5 - over[i][0]), 150 * (1.5 - over[i][1]));
-  
+  } 
+  else {
+      setTimeout(func, interval);
+      function func() {
+        drawLine(
+          150 * (1.5 - over[i - 1][0]),
+          150 * (1.5 - over[i - 1][1]),
+          150 * (1.5 - over[i][0]),
+          150 * (1.5 - over[i][1])
+        );
+      }
+      func();
+    }
 }
 pict.closePath();
 pict.stroke();
