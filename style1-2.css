@@ -1,0 +1,14 @@
+/* CSS files add styling rules to your content */
+
+body {
+  font-family: helvetica, arial, sans-serif;
+  margin: 2em;
+}
+
+h1 {
+  font-style: italic;
+}
+canvas{
+  border: solid 1px blue;
+  transform: scale(-1, 1); 
+}
